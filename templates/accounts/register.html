@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Create Account | HappyPaws</title>
+    </head>
+
+    <body>
+        <main>
+            <h1>Create a New Account</h1>
+            <p> Join HappyPaws and help animals find a home!</p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                {{ register_form.as_p }}
+
+                <button type="submit">
+                    Create Account 
+                </button>
+            </form>
+
+            <p> Already have an account?
+                <a href="{% url 'accounts:welcome' %}">
+                    Log In 
+                </a>
+            </p>
+        </main>
+    </body>
+</html>

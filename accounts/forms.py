@@ -1,0 +1,58 @@
+from django import forms
+from django.contrib.auth.forms import UserCreationForm 
+from django.contrib.auth.models import User 
+
+class NewUserForm(UserCreationForm):
+    """Form used to create a new HappyPaws user."""
+
+    first_name = forms.CharField(
+        max_length = 150,
+        required = True,
+        label="Fist Name"
+    )
+
+    last_name = forms.CharField(
+        max_length = 150,
+        required = True,
+        label = "Last Name"
+    )
+
+    email = forms.EmailField (
+        required = True,
+        label = "Email Address"
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+            "password1",
+            "password2",
+        ]
+
+    def clean_email(self):
+        """Check that another account does not already use the email"""
+
+        email = self.cleaned_data["email"].lower()
+
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError(
+                "An account with this email already exists."
+            )
+        
+        return email 
+    
+    def save(self, commit=True):
+        """Save the new user and use their email as their username."""
+
+        user = super().save(commit=False)
+        user.email = self.cleaned_data["email"].lower()
+        user.username = user.email
+
+        if commit:
+            user.save()
+
+        return user 
+    
