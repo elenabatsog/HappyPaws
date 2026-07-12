@@ -1,32 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
+{% extends "base.html" %}
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Create Account | HappyPaws</title>
-    </head>
+{% block title %}
+    Create Account | Happy Paws 
+{% endblock %}
 
-    <body>
-        <main>
-            <h1>Create a New Account</h1>
-            <p> Join HappyPaws and help animals find a home!</p>
+{% block content %}
+<section class="auth-page py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-11 col-md-8 col-lg-6">
+                <div class="auth-card">
+                    <div class="text-center mb-4">
+                        <h1 class="brand-title">
+                            Create an Account
+                        </h1>
 
-            <form method="POST">
-                {% csrf_token %}
+                        <p class="text-muted">
+                            Help animals find loving homes by join our community!
+                        </p>
+                    </div>
 
-                {{ register_form.as_p }}
+                    <form method="POST">
+                        {% csrf_token %}
 
-                <button type="submit">
-                    Create Account 
-                </button>
-            </form>
+                        {% for field in register_form %}
+                            <div class="mb-3">
+                                {{field.label_tag}}
+                                {{field}}
 
-            <p> Already have an account?
-                <a href="{% url 'accounts:welcome' %}">
-                    Log In 
-                </a>
-            </p>
-        </main>
-    </body>
-</html>
+                                {% if field.help_text %}
+                                    <div class="form-text">
+                                        {{field.help_text}}
+                                    </div>
+                                {% endif %}
+
+                                {% for error in field.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{error}}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Create Account 
+                        </button>
+                    </form>
+
+                    <p class="text-center mt-4 mb-0">
+                        Already have an account? 
+
+                        <a href="{% url 'accounts:welcome' %}">
+                            Log In 
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
