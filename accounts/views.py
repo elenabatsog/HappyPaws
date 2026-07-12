@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from .models import UserProfile
 
 from . forms import LoginForm, NewUserForm 
 
@@ -54,6 +55,13 @@ def register_request(request):
 
         if form.is_valid():
             user = form.save()
+
+            #users cannot choose their own role. preventing them from registering as an admin.
+            UserProfile.objects.create(
+                user=user,
+                role="USER",
+            )
+
             login(request,user)
 
             messages.success(
