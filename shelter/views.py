@@ -1,9 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from .models import Pet
 
 @login_required
 def browse_animals(request):
-    return render(request, "shelter/browse_animals.html")
+    pets = Pet.objects.all().order_by("-created_at")
+
+    return render(
+        request,
+        "shelter/browse_animals.html",
+        {"pets": pets},
+    )
 
 @login_required
 def favourites(request):
