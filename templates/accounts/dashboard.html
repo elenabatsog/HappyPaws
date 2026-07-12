@@ -17,7 +17,7 @@
             <p class="text-muted">
                 Account role: <strong> {{ request.user.profile.get_role_display }} </strong>
             </p>
-            
+
             <p class="text-muted">
                 Explore our beautiful stray animals, find your soulmate!
             </p>
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 col-lf-4">
+            <div class="col-md-6 col-lg-4">
                 <div class="dashboard-card">
                     <h2> My favourites</h2>
                     <p> All animals you saved to favourites</p>
@@ -57,6 +57,35 @@
                     </button>
                 </div>
             </div>
+
+            {% if request.user.profile.role == "ORGANIZATION" or request.user.profile.role == "ADMIN" %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="dashboard-card">
+                        <h2>Manage Animals</h2>
+
+                        <p> Add, edit or manage the animal catalogue</p>
+
+                        <button class="btn btn-primary" type="button" disabled>
+                            Organization Tool 
+                        </button>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if request.user.profile.role == "ADMIN" %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="dashboard-card">
+                        <h2>Admin Tools</h2>
+
+                        <p> Review animal suggestions from users and manage users' role</p>
+
+                        <button class="btn btn-primary" type="button" disabled>
+                            Admin Only 
+                        </button>
+                    </div>
+                </div>
+            {% endif %}
+        
         </div>
     </div>
 </main>
