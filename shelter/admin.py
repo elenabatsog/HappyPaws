@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Pet
+from .models import Category, Favourite, Pet
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -30,4 +30,17 @@ class PetAdmin(admin.ModelAdmin):
     search_fields = [
         "name",
         "breed",
+    ]
+
+@admin.register(Favourite)
+class FavouriteAdmin(admin.ModelAdmin):
+    list_display = [
+        "user",
+        "pet",
+        "created_at",
+    ]
+
+    search_fields = [
+        "user__email",
+        "pet__name",
     ]

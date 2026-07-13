@@ -93,4 +93,33 @@ class Pet(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.category.name}"
+    
+class Favourite(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="favourites",
+    )
+
+    pet = models.ForeignKey(
+        Pet,
+        on_delete=models.CASCADE,
+        related_name="favourited_by",
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add = True,
+    )
+
+    class Meta:
+        #it prevents the same user from tapping the same animal two times, each pet is unique
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "pet"],
+                name = "unique_user_pet_favourite",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.user.email} likes {self.pet.name}"
 

@@ -105,4 +105,19 @@ body {
     object-fit:cover;
 }
 
+.pet-details-image {
+    width: 100%;
+    max-height: 520px;
+    object-fit: cover;
+}
+
+.no-image-placeholder {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    min-height: 350px;
+    background-color: #e9efee;
+    border-radius: 1rem;
+    color: #6c757d;
+}
 

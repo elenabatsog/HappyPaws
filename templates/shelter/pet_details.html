@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}
+Browse Animals | HappyPaws 
+{% endblock %}
+
+{%block content %}
+<main class="py-5">
+    <div class="container">
+        <a href="{% url 'shelter:browse_animals' %}" class="btn btn-outline-primary mb-4">
+            Back to Animals 
+        </a>
+
+        <div class="row g-4 align-items-start">
+            <div class="col-lg-6">
+                {% if pet.image %}
+                    <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="img-fluid rounded pet-details-image">
+                {% else %}
+                    <div class="no-image-placeholder">
+                        No image available
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-6">
+                <h1> {{ pet.name }} </h1>
+
+                <p class="text-muted">
+                    {{ pet.category }} - {{ pet.breed }}
+                </p>
+
+                <p> {{ pet.description }} </p>
+
+                <ul class="list-group mb-4">
+                    <li class="list-group-item">
+                        <strong>Age:</strong>
+                        {{ pet.age }} years old
+                    </li>
+
+                    <li class="list-group-item">
+                        <strong>Gender:</strong>
+                        {{ pet.get_gender_display }}
+                    </li>
+
+                    <li class="list-group-item">
+                        <strong>Size:</strong>
+                        {{ pet.get_size_display }}
+                    </li>
+
+                    <li class="list-group-item">
+                        <strong>Vaccinated:</strong>
+                        {% if pet.vaccinated %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </li>
+
+                    <li class="list-group-item">
+                        <strong>Adoption fee:</strong>
+                        {{ pet.adoption_fee }}
+                    </li>
+                </ul>
+
+                #the button changes based on the user's option, whether the pet is being added to favourites or not
+                <form 
+                    method="POST"
+                    action="{% url 'shelter:toggle_favourite' pet.id %}"
+                    class="mb-3">
+                
+                    {% csrf_token %}
+
+                    {% if is_favourite %}
+                        <button type="submit" class="btn btn-outline-danger">
+                            Remove from Favourites
+                        </button>
+                    {% else %}
+                        <button type="submit" class="btn btn-outline-primary">
+                            Add to Favourites
+                        </button>
+                    {% endif %}
+                
+                </form>
+
+                <button class="btn btn-primary" type="button" disabled>
+                    Add to Adoption List 
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+{%endblock %}
