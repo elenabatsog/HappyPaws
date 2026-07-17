@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+Manage Animals | HappyPaws
+{% endblock %}
+
+{%block content %}
+<main class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1>
+                    Manage Animals
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Add, edit, remove animals from the catalogue
+                </p>
+            </div>
+
+            <a href="{% url 'shelter:add_pet' %}" class="btn btn-primary">
+                Add Animal
+            </a>
+        </div>
+
+        <div class="row g-4">
+            {% for pet in pets %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        {% if pet.image %}
+                            <img src="{{ pet.image.url }}" class="card-img-top pet-card-image" alt="{{ pet.name }}">
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h2 class="h4">
+                                {{ pet.name }}
+                            </h2>
+
+                            <p>
+                                <strong> Category: </strong>
+                                {{ pet.category }}
+                            </p>
+
+                            <p>
+                                <strong> Status: </strong>
+                                {{ pet.get_status_display }}
+                            </p>
+
+                            <a href="{% url 'shelter:edit_pet' pet.id %}" class="btn btn-outline-primary">
+                                Edit
+                            </a>
+
+                            <a href="{% url 'shelter:delete_pet' pet.id %}" class="btn btn-outline-danger">
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {% empty %}
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            There are no animals in the catalogue yet.
+                        </div>
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}
