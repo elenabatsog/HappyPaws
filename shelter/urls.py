@@ -10,5 +10,8 @@ urlpatterns = [
     path("suggest/", views.suggest_animal, name="suggest_animal"),
     path("my-suggestions/", views.my_suggestions, name="my_suggestions"),
     path("manage/", views.manage_animals, name="manage_animals"),
+    path("manage/add", views.add_pet, name="add_pet"),
+    path("manage/<int:pet_id>/edit/", views.edit_pet, name="edit_pet"),
+    path("manage/<int:pet_id>/delete/", views.delete_pet, name="delete_pet"),
     path("animals/<int:pet_id>/", views.pet_details, name="pet_details"),
 ]
