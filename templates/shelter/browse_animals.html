@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+Browse Animals | HappyPaws 
+{% endblock %}
+
+{%block content %}
+<main class="py-5">
+    <div class="container">
+        <div class="mb-5">
+            <h1>Browse Animals</h1>
+
+            <p class="text-muted">
+                Let's meet the animals who need a home.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            {% for pet in pets %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        {% if pet.image %}
+                            <img src="{{ pet.image.url }}" class="card-img-top pet-card-image" alt="{{ pet.name }}">
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h2 class="h4">
+                                {{ pet.name }}
+                            </h2>
+
+                            <p class="text-muted mb-2">
+                                {{ pet.category }} - {{ pet.breed }}
+                            </p>
+
+                            <p>
+                                {{ pet.description|truncatewords:18 }}
+                            </p>
+
+                            <ul class="list-unstyled small">
+                                <li>
+                                    <strong>Age:</strong>
+                                    {{ pet.age }} years old
+                                </li>
+
+                                <li>
+                                    <strong>Gender:</strong>
+                                    {{ pet.get_gender_display }}
+                                </li>
+
+                                <li>
+                                    <strong>Size:</strong>
+                                    {{ pet.get_size_display }}
+                                </li>
+
+                                <li>
+                                    <strong>Status:</strong>
+                                    {{ pet.get_status_display }}
+                                </li>
+                            </ul>
+
+                            <a href="{% url 'shelter:pet_details' pet.id %}" class="btn btn-primary">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        No animals are available so far.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>    
+</main>
+
+{% endblock %}
