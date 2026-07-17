@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Suggest an Animal | HappyPaws
+{% endblock %}
+
+{%block content %}
+<main class="py-5"
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1> Suggest an Animal </h1>
+
+                <p class="text-muted">
+                    Inform us about an animal that may need support.
+                </p>
+
+                <form method="POST" enctype="multipart/form-data" class="card border-0 shadow-sm p-4">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            {{ field.label_tag }}
+                            {{ field }}
+
+                            {% if field.help_text %}
+                                <div class="form-text">
+                                    {{ field.help_text }}
+                                </div>
+                            {% endif %}
+
+                            {% for error in field.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-primary">
+                        Submit Suggestion
+                    </button>
+
+                </form>
+
+                <a href="{% url 'shelter:my_suggestions' %}" class="btn btn-primary mt-3">
+                    View My Suggestions
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
