@@ -40,9 +40,9 @@
                     <h2> My favourites</h2>
                     <p> All animals you saved to favourites</p>
 
-                    <button class="btn btn-outline-primary" type="button" disabled>
-                        Coming Soon
-                    </button>
+                    <a href="{% url 'shelter:favourites' %}" class="btn btn-primary">
+                        View Favourites
+                    </a>
                 </div>
             </div>
 
@@ -50,11 +50,16 @@
                 <div class="dashboard-card">
                     <h2> Suggest an Animal</h2>
 
-                    <p>Reccomendations for animals who need support.</p>
+                    <p>Recommendations for animals who need support.</p>
 
-                    <a href="{% url 'shelter:favourites' %}" class="btn btn-primary">
-                        View Favourites
+                    <a href="{% url 'shelter:suggest_animal' %}" class="btn btn-outline-primary">
+                        Suggest an Animal
                     </a>
+
+                    <a href="{% url 'shelter:my_suggestions' %}" class="btn btn-link">
+                        My Suggestions
+                    </a>
+                    
                 </div>
             </div>
 
@@ -65,9 +70,9 @@
 
                         <p> Add, edit or manage the animal catalogue</p>
 
-                        <button class="btn btn-primary" type="button" disabled>
-                            Organization Tool 
-                        </button>
+                        <a href="{% url 'shelter:manage_animals' %}" class="btn btn-primary">
+                            Manage Animals
+                        </a>
                     </div>
                 </div>
             {% endif %}
