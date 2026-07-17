@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Suggestions | HappyPaws
+{% endblock %}
+
+{%block content %}
+<main class="py-5"
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1> My Animal Suggestions </h1>
+
+                <p class="text-muted">
+                    Information about the status of the animals you recommended.
+                </p>
+            </div>
+
+            <div class="row g-4">
+                {% for suggestion in suggestions %}
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            {% if suggestion.image %}
+                                <img src="{{ suggestion.image.url }}" class="card-img-top pet-card-image" alt="{{ suggestion.animal_type }}">
+                            {% endif %}
+
+                            <div class="card-body">
+                                <h2 class="h4">
+                                    {% if suggestion.animal_name %}
+
+                                        {{ suggestion.animal_name }}
+                                    {% else %}
+                                        {{ suggestion.animal_type }}
+                                    {% endif %}
+                                </h2>
+
+                                <p>
+                                    <strong> Animal type: </strong>
+                                    {{ suggestion.animal_type }}
+                                </p>
+
+                                <p>
+                                    <strong> Location found: </strong>
+                                    {{ suggestion.location_found }}
+                                </p>
+
+                                <p>
+                                    <strong> Status: </strong>
+                                    {% if suggestion.status == "PENDING" %}
+                                        <span class="badge text-bg-warning">
+                                            Pending
+                                        </span>
+                                    {% elif suggestion.status == "APPROVED" %}
+                                        <span class="badge text-bg-success">
+                                            Approved
+                                        </span>
+                                    {% else %}
+                                        <span class="badge text-bg-danger">
+                                            Rejected
+                                        </span>
+                                    {% endif %}
+                                </p>
+
+                                {% if suggestion.rejection_reason %}
+                                    <p>
+                                        <strong> Rejection Reason: </strong>
+                                        {{ suggestion.rejection_reason }}
+                                    </p>
+                                {% endif %}
+
+                                <p class="text-muted small">
+                                    Submitted: 
+                                    {{ suggestion.submitted_at|date:"d/m/Y" }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% empty %}
+                        <div class="col-12">
+                            <div class="alert alert-info">
+                                You have not submitted any animal suggestions yet.
+                            </div>
+                        </div>
+                    {% endfor %}
+            </div>
+        </div>  
+    </div>
+</main>
+
+{% endblock %}
