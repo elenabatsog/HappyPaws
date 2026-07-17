@@ -123,3 +123,73 @@ class Favourite(models.Model):
     def __str__(self):
         return f"{self.user.email} likes {self.pet.name}"
 
+class AnimalSuggestion(models.Model):
+    STATUS_CHOICES = [
+        ("PENDING", "Pending"),
+        ("APPROVED", "Approved"),
+        ("REJECTED", "Rejected"),
+    ]
+
+    submitted_by = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="animal_suggestions",
+    )
+
+    animal_name = models.CharField(
+        max_length=100,
+        blank=True,
+    )
+
+    animal_type = models.CharField(
+        max_length=50,
+    )
+
+    breed = models.CharField(
+        max_length=100,
+        blank=True,
+    )
+
+    estimated_age = models.PositiveBigIntegerField(
+        blank=True,
+        null=True,
+        help_text="Estimated age in years",
+    )
+
+    location_found = models.CharField(
+        max_length=255,
+    )
+
+    description = models.TextField()
+
+    image = models.ImageField(
+        upload_to = "suggestions/",
+        blank=True,
+        null=True,
+    )
+
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default="PENDING"
+    )
+
+    rejection_reason = models.TextField(
+        blank=True,
+    )
+
+    reviewed_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="reviewed_suggestions",
+    )
+
+    submitted_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    def __str__(self):
+        return f"{self.animal_type} - {self.get_status_display()}"
+    
