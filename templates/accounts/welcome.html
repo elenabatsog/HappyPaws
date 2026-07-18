@@ -28,10 +28,10 @@
                         {% csrf_token %}
 
                         <div class="mb-3">
-                            {{login_form.email.label_tag}}
-                            {{login_form.email}}
+                            {{login_form.username.label_tag}}
+                            {{login_form.username}}
 
-                            {% for error in login_form.email.errors %}
+                            {% for error in login_form.username.errors %}
                                 <div class="text-danger small mt-1">
                                     {{error}}
                                 </div>

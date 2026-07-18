@@ -1,4 +1,5 @@
-from django.contrib import messages 
+from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
@@ -18,22 +19,36 @@ def welcome(request):
         form = LoginForm(request.POST)
 
         if form.is_valid():
-            email = form.cleaned_data["email"].lower()
+            usr_email = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
 
             user = authenticate(
                 request,
-                username=email,
+                username=usr_email,
                 password=password,
             )
 
-            if user is not None:
-                login(request, user)
-                return redirect("accounts:dashboard")
+            if user is None:
+                try:
+                    account = User.objects.get(
+                        email__iexact = usr_email
+                    )
+
+                    user = authenticate(
+                        request,
+                        username=account.username,
+                        password=password,
+                    )
+                except User.DoesNotExist:
+                    user = None
+                
+                if user is not None:
+                    login(request, user)
+                    return redirect("accounts:dashboard")
             
             messages.error(
                 request,
-                "The email or password is incorrect.",
+                "The username/email or password is incorrect.",
             )
     
     return render(

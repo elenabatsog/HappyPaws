@@ -14,4 +14,8 @@ urlpatterns = [
     path("manage/<int:pet_id>/edit/", views.edit_pet, name="edit_pet"),
     path("manage/<int:pet_id>/delete/", views.delete_pet, name="delete_pet"),
     path("animals/<int:pet_id>/", views.pet_details, name="pet_details"),
+    path("admin-tools/suggestions/", views.admin_suggestions, name="admin_suggestions"),
+    path("admin-tools/suggestions/<int:suggestion_id>/approve/", views.approve_suggestion, name="approve_suggestion"),
+    path("admin-tools/suggestions/<int:suggestion_id>/reject/", views.reject_suggestion, name="reject_suggestion"),
+
 ]
