@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Reject Suggestion | HappyPaws
+{% endblock %}
+
+{%block content %}
+<main class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm p-4">
+                    <h1>
+                        Reject Suggestion
+                    </h1>
+
+                    <p>
+                        You are rejecting:
+                        <strong>
+                            {% if suggestion.animal_name %}
+                                {{ suggestion.animal_name }}
+                            {% else %}
+                                {{ suggestion.animal_type }}
+                            {% endif %}
+                        </strong>
+                    </p>
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="rejection_reason" class="form-label">
+                                Rejection Reason
+                            </label>
+
+                            <textarea name="rejection_reason" id="rejection_reason" class="form-control" rows="5" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-danger">
+                            Reject Suggestion
+                        </button>
+
+                        <a href="{% url 'shelter:admin_suggestions' %}" class="btn btn-outline-secondary">
+                            Cancel
+                        </a>
+                    </form>
+                </div> 
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

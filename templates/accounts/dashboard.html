@@ -84,9 +84,9 @@
 
                         <p> Review animal suggestions from users and manage users' role</p>
 
-                        <button class="btn btn-primary" type="button" disabled>
-                            Admin Only 
-                        </button>
+                        <a href="{% url 'shelter:admin_suggestions' %}" class="btn btn-primary">
+                            Review Suggestions
+                        </a>
                     </div>
                 </div>
             {% endif %}
