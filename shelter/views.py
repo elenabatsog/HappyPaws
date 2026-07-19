@@ -27,10 +27,30 @@ def pet_details(request, pet_id):
 def browse_animals(request):
     pets = Pet.objects.all().order_by("-created_at")
 
+    search_query = request.GET.get("search", "")
+    category_id = request.GET.get("category", "")
+
+    if search_query:
+        pets = pets.filter(
+            name__icontains=search_query
+        )
+
+    if category_id:
+        pets = pets.filter(
+            category_id=category_id
+        )
+    
+    categories = Category.objects.all().order_by("name")
+
     return render(
         request,
         "shelter/browse_animals.html",
-        {"pets": pets},
+        {
+            "pets": pets,
+            "categories": categories,
+            "search_query": search_query,
+            "selected_category": category_id,
+        },
     )
 
 @login_required
