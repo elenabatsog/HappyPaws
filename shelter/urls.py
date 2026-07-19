@@ -17,5 +17,12 @@ urlpatterns = [
     path("admin-tools/suggestions/", views.admin_suggestions, name="admin_suggestions"),
     path("admin-tools/suggestions/<int:suggestion_id>/approve/", views.approve_suggestion, name="approve_suggestion"),
     path("admin-tools/suggestions/<int:suggestion_id>/reject/", views.reject_suggestion, name="reject_suggestion"),
+    path("animals/<int:pet_id>/adopt/", views.adopt_pet, name="adopt_pet"),
+    path("animals/<int:pet_id>/adoption-success/", views.adoption_success, name="adoption_success"),
+    path("cart/add/<int:pet_id>", views.add_to_cart, name="add_to_cart"),
+    path("cart/", views.view_cart, name="view_cart"),
+    path("cart/remove/<int:pet_id>", views.remove_from_cart, name="remove_from_cart"),
+    path("cart/submit/", views.submit_cart, name="submit_cart")
+
 
 ]
