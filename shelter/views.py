@@ -2,7 +2,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import AnimalSuggestionForm, PetForm, AdoptionRequestForm, ReviewForm
-from .models import AnimalSuggestion, Category, Favourite, Pet, CartItem, Review 
+from .models import AnimalSuggestion, Category, Favourite, Pet, CartItem, Review
+from django.db.models import Q 
 
 @login_required
 def pet_details(request, pet_id):
@@ -75,22 +76,51 @@ def pet_details(request, pet_id):
 
 @login_required
 def browse_animals(request):
-    pets = Pet.objects.all().order_by("-created_at")
+    pets = Pet.objects.filter(
+        status="AVAILABLE"
+    )
 
-    search_query = request.GET.get("search", "")
-    category_id = request.GET.get("category", "")
+    search = request.GET.get("search", "")  
 
-    if search_query:
+    category = request.GET.get("category", "")
+    
+    gender = request.GET.get("gender", "")
+
+    size = request.GET.get("size", "")
+
+    vaccinated = request.GET.get("vaccinated", "")
+
+    if search:
         pets = pets.filter(
-            name__icontains=search_query
+            Q(name__icontains=search) |
+            Q(breed__icontains=search)
         )
 
-    if category_id:
+    if category:
         pets = pets.filter(
-            category_id=category_id
+            category_id=category
         )
     
-    categories = Category.objects.all().order_by("name")
+    if gender:
+        pets = pets.filter(
+            gender=gender
+        )
+    
+    if size:
+        pets = pets.filter(
+            size=size
+        )
+    
+    if vaccinated == "yes":
+        pets = pets.filter(
+            vaccinated=True
+        )
+    elif vaccinated == "no":
+        pets = pets.filter(
+            vaccinated=False
+        )
+    
+    categories = Category.objects.all()
 
     return render(
         request,
@@ -98,8 +128,11 @@ def browse_animals(request):
         {
             "pets": pets,
             "categories": categories,
-            "search_query": search_query,
-            "selected_category": category_id,
+            "search": search,
+            "selected_category": category,
+            "selected_gender": gender,
+            "selected_size": size,
+            "selected_vaccinated": vaccinated,
         },
     )
 
