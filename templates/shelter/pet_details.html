@@ -62,7 +62,12 @@ Browse Animals | HappyPaws
                     </li>
                 </ul>
 
-                #the button changes based on the user's option, whether the pet is being added to favourites or not
+                <div class="likes-display mb-3">
+                    <span class="fs-5">
+                        Like {{ likes_count|pluralize }}
+                    </span>
+                </div>
+
                 <form 
                     method="POST"
                     action="{% url 'shelter:toggle_favourite' pet.id %}"
@@ -82,12 +87,77 @@ Browse Animals | HappyPaws
                 
                 </form>
 
-                <button class="btn btn-primary" type="button" disabled>
-                    Add to Adoption List 
-                </button>
+                {% if pet.status == "AVAILABLE" %}
+                    <a href="{% url 'shelter:adopt_pet' pet.id %}" class="btn btn-primary">
+                        Adopt
+                    </a>
+
+                    <a href="{% url 'shelter:add_to_cart' pet.id %}">
+                        Add to Cart
+                    </a>
+                {% else %}
+                    <button class="btn btn-secondary" disabled>
+                        Not Available
+                    </button>
+                {% endif %}
             </div>
         </div>
     </div>
 </main>
+
+{% if recommended_pets %}
+<section class="recommended-section mt-5">
+    <div class="container">
+        <div class="text-center mb-4">
+            <p class="dashboard-label mb-2">
+                Similar Animals
+            </p>
+
+            <h2 class="fw-bold">
+                You may also like:
+            </h2>
+
+            <p class="text-muted">
+                Meet other animals from the same category.
+            </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        {% for recommended_pet in recommended_pets %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm recommended-card">
+                    {% if recommended_pet.image %}
+                        <img src="{{ recommended_pet.image.url }}" class="card-img-top recommended-pet-image" alt="{{ recommended_pet.name }}">
+                    {% endif %}
+
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="h5 fw-bold">
+                            {{ recommended_pet.name }}
+                        </h3>
+
+                        <p class="text-muted mb-2">
+                            {{ recommended_pet.category.name }}
+                        </p>
+
+                        {% if recommended_pet.breed %}
+                            <p class="mb-3">
+                                <strong>Breed:</strong>
+                                {{ recommended_pet.breed }}
+                            </p>
+                        {% endif %}
+
+                        <div class="mt-auto">
+                            <a href="{% url 'shelter:pet_details' recommended_pet.id %}" class="btn btn-primary w-100">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endif %}
 
 {%endblock %}
