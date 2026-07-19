@@ -21,7 +21,7 @@ urlpatterns = [
     path("animals/<int:pet_id>/adoption-success/", views.adoption_success, name="adoption_success"),
     path("cart/add/<int:pet_id>", views.add_to_cart, name="add_to_cart"),
     path("cart/", views.view_cart, name="view_cart"),
-    path("cart/remove/<int:pet_id>", views.remove_from_cart, name="remove_from_cart"),
+    path("cart/remove/<int:item_id>", views.remove_from_cart, name="remove_from_cart"),
     path("cart/submit/", views.submit_cart, name="submit_cart")
 
 
