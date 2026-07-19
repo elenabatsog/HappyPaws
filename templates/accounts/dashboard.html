@@ -1,98 +1,180 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
     Dashboard | Happy Paws 
 {% endblock %}
 
 {% block content %}
-<main class="dashboard-page py-5">
+<section class="dashboard-hero py-5">
     <div class="container">
-        <div class="dashboard-header mb-5">
-            <p class="text-uppercase dashboard-label">
-                Dashboard 
+        <div class="row align-items g-5">
+            <div class="col-lg-6">
+                <p class="dashboard-label mb-2">
+                    Welcome to HappyPaws!
+                </p>
+
+                <h1 class="dashboard-welcome-title fw-bold">
+                    Meet our fur buddies and become best friends!
+                </h1>
+
+                <p class="lead text-muted mt-3">
+                    Explore our beautiful animals, waiting for adoption or help us discover another animal that needs support.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a href="{% url 'shelter:browse_animals' %}" class="btn btn-primary btn-lg">
+                        Browse Animals
+                    </a>
+
+                    <a href="{% url 'shelter:suggest_animal' %}" class="btn btn-outline-primary btn-lg">
+                        Suggest an Animal
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <img src="{% static 'images/all-animals.jpg' %}" alt="Happy adopted dog and cat" class="img-fluid dashboard-hero-image">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="mb-5">
+            <p class="dashboard-label mb-2">
+                Your Dashboard
             </p>
 
-            <h1> Welcome, {{request.user.first_name}}! </h1>
+            <h2 class="dashboard-welcome-title">
+                Welcome back,
+                {% if request.user.first_name %}
+                    {{ request.user.first_name }}!
+                {% else %}
+                    {{ request.user.username }}!
+                {% endif %}
+            </h2>
 
-            <p class="text-muted">
-                Account role: <strong> {{ request.user.profile.get_role_display }} </strong>
+            <p class="text-muted mb-1">
+                Account role: 
+                <strong> {{ request.user.profile.get_role_display }} </strong>
             </p>
 
             <p class="text-muted">
-                Explore our beautiful stray animals, find your soulmate!
+                What would you like to do today?
             </p>
         </div>
 
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
-                <div class="dashboard-card">
-                    <h2> Browse Animals</h2>
-                    <p> All stray animals available for adoption</p>
+                <div class="card dashboard-card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h3 class="h4"> Browse Animals</h3>
 
-                    <a href="{% url 'shelter:browse_animals' %}" class="btn btn-primary">
-                        Browse Animals
-                    </a>
+                        <p class="text-muted">
+                            Meet the available animals for adoption and view their characteristics.
+                        </p>
+
+                        <div class="mt-auto">
+                            <a href="{% url 'shelter:browse_animals' %}" class="btn btn-primary">
+                                Browse Animals
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-4">
-                <div class="dashboard-card">
-                    <h2> My favourites</h2>
-                    <p> All animals you saved to favourites</p>
+                <div class="card dashboard-card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h3 class="h4">
+                            My favourites
+                        </h3>
 
-                    <a href="{% url 'shelter:favourites' %}" class="btn btn-primary">
-                        View Favourites
-                    </a>
+                        <p class="text-muted"> 
+                            View all animals you saved to favourites
+                        </p>
+
+                        <div class="mt-auto">
+                            <a href="{% url 'shelter:favourites' %}" class="btn btn-primary">
+                                View Favourites
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-4">
-                <div class="dashboard-card">
-                    <h2> Suggest an Animal</h2>
+                <div class="card dashboard-card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h3 class="h4">
+                            My Suggestions
+                        </h3>
 
-                    <p>Recommendations for animals who need support.</p>
+                        <p class="text-muted"> 
+                            Inform the shelter about the animal in need.
+                        </p>
 
-                    <a href="{% url 'shelter:suggest_animal' %}" class="btn btn-outline-primary">
-                        Suggest an Animal
-                    </a>
+                        <div class="d-flex gap-2 mt-auto">
+                            <a href="{% url 'shelter:suggest_animal' %}" class="btn btn-primary">
+                                Suggest Animal
+                            </a>
 
-                    <a href="{% url 'shelter:my_suggestions' %}" class="btn btn-link">
-                        My Suggestions
-                    </a>
-                    
+                            <a href="{% url 'shelter:my_suggestions' %}" class="btn btn-primary">
+                                My Suggestions
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             {% if request.user.profile.role == "ORGANIZATION" or request.user.profile.role == "ADMIN" %}
                 <div class="col-md-6 col-lg-4">
-                    <div class="dashboard-card">
-                        <h2>Manage Animals</h2>
-
-                        <p> Add, edit or manage the animal catalogue</p>
-
-                        <a href="{% url 'shelter:manage_animals' %}" class="btn btn-primary">
+                <div class="card dashboard-card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h3 class="h4">
                             Manage Animals
-                        </a>
+                        </h3>
+
+                        <p class="text-muted"> 
+                            Add, update or remove animals from the adoption catalogue.
+                        </p>
+
+                        <div class="mt-auto">
+                            <a href="{% url 'shelter:manage_animals' %}" class="btn btn-primary">
+                                Manage Animals
+                            </a>
+                        </div>
                     </div>
                 </div>
+            </div>
             {% endif %}
 
             {% if request.user.profile.role == "ADMIN" %}
                 <div class="col-md-6 col-lg-4">
-                    <div class="dashboard-card">
-                        <h2>Admin Tools</h2>
+                    <div class="card dashboard-card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h3 class="h4">
+                                Review Suggestions
+                            </h3>
 
-                        <p> Review animal suggestions from users and manage users' role</p>
+                            <p class="text-muted"> 
+                                Review animal suggestions and approve or reject each request.
+                            </p>
 
-                        <a href="{% url 'shelter:admin_suggestions' %}" class="btn btn-primary">
-                            Review Suggestions
-                        </a>
+                            <div class="mt-auto">
+                                <a href="{% url 'shelter:admin_suggestions' %}" class="btn btn-primary">
+                                    Review Suggestions
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             {% endif %}
         
         </div>
     </div>
-</main>
+</section>
 
 {% endblock %}
