@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{%block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow text-center p-5">
+                <div class="mb-3">
+                    <h2 class="fw-bold">
+                        Request Submitted!
+                    </h2>
+
+                    <p class="text-muted" mt-3>
+                        Your adoption cart has been submitted successfully. Our team will review your request soon!
+                    </p>
+
+                    <div class="mt-4">
+                        <a href="{% url 'shelter:browse_animals' %}" class="btn btn-primary">
+                            Back to Animals
+                        </a>
+
+                        <a href="{% url 'accounts:dashboard' %}" class="btn btn-primary">
+                            Go to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
