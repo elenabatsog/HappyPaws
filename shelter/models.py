@@ -192,4 +192,53 @@ class AnimalSuggestion(models.Model):
 
     def __str__(self):
         return f"{self.animal_type} - {self.get_status_display()}"
-    
+
+class AdoptionRequest(models.Model):
+    STATUS_CHOICES = [
+        ("PENDING", "Pending"),
+        ("APPROVED", "Approved"),
+        ("REJECTED", "Rejected")
+    ]
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="adoption_requests",
+    )
+
+    pet = models.ForeignKey(
+        Pet,
+        on_delete=models.CASCADE,
+        related_name="adoption_requests",
+    )
+
+    full_name = models.CharField(
+        max_length=150,
+    )
+
+    email = models.EmailField()
+
+    phone_number = models.CharField(
+        max_length=30,
+    )
+
+    address = models.CharField(
+        max_length=255,
+    )
+
+    reason = models.TextField(
+        help_text="Explain the reason why you would like to adopt this animal in a few words."
+    )
+
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default="PENDING",
+    )
+
+    submitted_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    def __str__(self):
+        return f"{self.user.email} - {self.pet.name} - {self.get_status_display()}"
