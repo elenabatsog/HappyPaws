@@ -162,13 +162,13 @@ body {
 .pet-card-image {
     width:100%;
     height: 240px;
-    object-fit:cover;
+    object-fit:contain;
 }
 
 .pet-details-image {
     width: 100%;
     max-height: 520px;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .no-image-placeholder {
@@ -275,4 +275,110 @@ body {
         margin-left: auto;
         margin-right: auto;
     }
+}
+
+/* Adoption Request page */
+.adoption-image-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    overflow: hidden;
+}
+
+.adoption-pet-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 620px;
+    object-fit: contain;
+}
+
+.adoption-no-image {
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* The Cart Page */
+.cart-pet-image {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    background-color: #f8f9fa;
+    padding: 10px;
+}
+
+/* The User Profile */
+.profile-edit-section {
+    min-height: 75vh;
+    background-color: #f5f9f9;
+}
+
+.profile-edit-card {
+    border-radius: 18px;
+}
+
+.profile-edit-card .form-control {
+    border-radius: 10px;
+    padding: 12px 14px;
+}
+
+.profile-edit-card .form-control:focus {
+    box-shadow: none;
+    border-color: #347d80;
+}
+
+.profile-edit-card .btn {
+    border-radius: 10px;
+}
+
+/* Recommender System*/
+.recommended-section {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.recommended-card {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.recommended-card:hover {
+    transform: translateY(-4px);
+}
+
+.recommended-pet-image {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    background-color: #f8f9fa;
+    padding: 10px;
+}
+
+/* Likes for each animal */
+.likes-diplay {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Reviews for each animal*/
+.reviews-section {
+    background-color: #f5f9f9;
+}
+
+.review-form-card,
+.review-card {
+    border-radius: 15px;
+}
+
+.review-rating {
+    font-weight: 600;
+}
+
+.reviews-section textarea {
+    resize: vertical;
 }

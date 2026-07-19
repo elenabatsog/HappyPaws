@@ -1,8 +1,8 @@
 from django.contrib import messages 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import AnimalSuggestionForm, PetForm
-from .models import AnimalSuggestion, Category, Favourite, Pet
+from .forms import AnimalSuggestionForm, PetForm, AdoptionRequestForm, ReviewForm
+from .models import AnimalSuggestion, Category, Favourite, Pet, CartItem, Review 
 
 @login_required
 def pet_details(request, pet_id):
@@ -12,6 +12,52 @@ def pet_details(request, pet_id):
         user= request.user,
         pet=pet,
     ).exists()
+    
+    likes_count = Favourite.objects.filter(
+            pet=pet,
+        ).count()
+    
+    recommended_pets = Pet.objects.filter(
+        category=pet.category,
+        status="AVAILABLE",
+    ).exclude(
+        id=pet.id,
+    )[:3]
+
+    reviews = Review.objects.filter(
+        pet=pet,
+    ).order_by("-created_at")
+
+    existing_review = Review.objects.filter(
+        user=request.user,
+        pet=pet,
+    ).first()
+
+    if request.method == "POST":
+        review_form = ReviewForm(
+            request.POST,
+            instance = existing_review,
+        )
+
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.pet = pet
+            review.save()
+
+            messages.success(
+                request,
+                "Your review was saved successfully. "
+            )
+
+            return redirect(
+                "shelter:pet_details",
+                pet_id = pet.id,
+            )
+    else:
+        review_form = ReviewForm(
+            instance = existing_review,
+        )
 
     return render(
         request,
@@ -19,9 +65,13 @@ def pet_details(request, pet_id):
         {
             "pet": pet,
             "is_favourite": is_favourite,
+            "likes_count": likes_count,
+            "recommended_pets": recommended_pets,
+            "reviews": reviews,
+            "review_form": review_form,
+            "existing_review": existing_review,
         },
     )
-
 
 @login_required
 def browse_animals(request):
@@ -81,6 +131,8 @@ def suggest_animal(request):
         )
 
         return redirect("shelter:my_suggestions")
+    else:
+        form = AnimalSuggestionForm()
     
     return render(request, "shelter/suggest_animal.html", {"form": form})
 
@@ -349,3 +401,97 @@ def reject_suggestion(request, suggestion_id):
         {"suggestion": suggestion},
     )
         
+@login_required
+def adopt_pet(request, pet_id):
+    pet = get_object_or_404(
+        Pet,
+        id=pet_id,
+        status="AVAILABLE"
+    )
+
+    if request.method == "POST":
+        form = AdoptionRequestForm(request.POST)
+
+        if form.is_valid():
+            adoption_request = form.save(commit=False)
+
+            adoption_request.user = request.user
+            adoption_request.pet = pet
+
+            adoption_request.save()
+
+            return redirect( "shelter:adoption_success", pet_id=pet.id)
+    else:
+        form = AdoptionRequestForm(
+            initial={
+                "full_name": request.user.get_full_name(),
+                "email": request.user.email,
+            }
+        )
+
+    context = {
+        "pet": pet,
+        "form": form,
+    }
+
+    return render(
+        request,
+        "shelter/adopt_pet.html",
+        context,
+    )
+    
+@login_required
+def adoption_success(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id)
+
+    return render(
+        request,
+        "shelter/adoption_success.html",
+        {"pet": pet}
+    )
+
+@login_required
+def add_to_cart(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id)
+
+    CartItem.objects.get_or_create(
+        user = request.user,
+        pet = pet,
+    )
+
+    return redirect("shelter:view_cart")
+
+@login_required
+def view_cart(request):
+    cart_items = CartItem.objects.filter(
+        user=request.user
+    )
+
+    return render(
+        request,
+        "shelter/cart.html",
+        {"cart_items": cart_items},
+    )
+
+@login_required
+def remove_from_cart(request, item_id):
+    cart_item = get_object_or_404(
+        CartItem,
+        id = item_id,
+        user = request.user
+    )
+
+    cart_item.delete()
+
+    return redirect("shelter:view_cart")
+
+@login_required
+def submit_cart(request):
+    CartItem.objects.filter(
+        user=request.user
+    ).delete()
+
+    return render(
+        request,
+        "shelter/cart_success.html",
+    )

@@ -242,3 +242,72 @@ class AdoptionRequest(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.pet.name} - {self.get_status_display()}"
+    
+class CartItem(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="cart_items",
+    )
+
+    pet = models.ForeignKey(
+        Pet,
+        on_delete=models.CASCADE,
+        related_name="cart_items",
+    )
+
+    added_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "pet"],
+                name="unique_cart_item",
+            )
+        ]
+
+        def __str__(self):
+            return f"{self.user.email} - {self.pet.name}"
+        
+class Review(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="reviews",
+    )
+
+    pet = models.ForeignKey(
+        Pet,
+        on_delete=models.CASCADE,
+        related_name="reviews",
+    )
+
+    rating = models.IntegerField(
+        choices=[
+            (1, "1 Star"),
+            (2, "2 Star"),
+            (3, "3 Star"),
+            (4, "4 Star"),
+            (5, "5 Star"),
+        ]
+    )
+
+    comment = models.TextField()
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "pet"],
+                name="one_review_per_user_pet",
+            )
+        ]
+
+        def __str__(self):
+            return f"{self.user.username} - {self.pet.name}"
+
