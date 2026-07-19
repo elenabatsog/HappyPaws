@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Contact Us | HappyPaws
+{% endblock %}
+
+{% block extra_css %}
+
+{%block content %}
+
+<section class="contact-hero">
+    <div class="container text-center">
+        <p class="contact-label">
+            Contact us
+        </p>
+
+        <p class="contact-intro">
+            Do you have a question about adoption process, pets, or our shelter?
+            Feel free to send us a message and we will respond soon.
+        </p>
+    </div>
+</section>
+
+<section class="contact-main">
+    <div class="container">
+        <div class="row g-5 align-items-stretch">
+            <!-- The contact form -->
+             <div class="col-lg-7">
+                <div class="contact-form-card">
+                    <p class="contact-label">
+                        Send a Message
+                    </p>
+
+                    <p> How we can help? </p>
+                </div>
+             </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
