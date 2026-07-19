@@ -70,15 +70,15 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card dashboard-card h-100 border-0 shadow-sm">
                     <div class="card-body p-4 d-flex flex-column">
-                        <h3 class="h4"> Browse Animals</h3>
+                        <h3 class="h4"> My Suggestions </h3>
 
                         <p class="text-muted">
-                            Meet the available animals for adoption and view their characteristics.
+                            View the animals you suggested to the shelter.
                         </p>
 
                         <div class="mt-auto">
-                            <a href="{% url 'shelter:browse_animals' %}" class="btn btn-primary">
-                                Browse Animals
+                            <a href="{% url 'shelter:my_suggestions' %}" class="btn btn-primary">
+                                Suggest Animal
                             </a>
                         </div>
                     </div>
@@ -109,25 +109,18 @@
                 <div class="card dashboard-card h-100 border-0 shadow-sm">
                     <div class="card-body p-4 d-flex flex-column">
                         <h3 class="h4">
-                            My Suggestions
+                            My Profile
                         </h3>
 
                         <p class="text-muted"> 
-                            Inform the shelter about the animal in need.
+                            Update your personal information and account details.
                         </p>
 
-                        <div class="d-flex gap-2 mt-auto">
-                            <a href="{% url 'shelter:suggest_animal' %}" class="btn btn-primary">
-                                Suggest Animal
-                            </a>
-
-                            <a href="{% url 'shelter:my_suggestions' %}" class="btn btn-primary">
-                                My Suggestions
+                        <div class="mt-auto">
+                            <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary">
+                                Edit Profile
                             </a>
                         </div>
-                    </div>
-                </div>
-            </div>
 
             {% if request.user.profile.role == "ORGANIZATION" or request.user.profile.role == "ADMIN" %}
                 <div class="col-md-6 col-lg-4">
