@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+About Us | HappyPaws
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{%block content %}
+
+<section class="about-hero">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <h1 class="about-main-title">
+                    About HappyPaws
+                </h1>
+
+                <h2 class="about-subtitle"> Every pet deserves hugs and love. </h2>
+
+                <p class="about-description">
+                    HappyPaws rescues animals and helps them connect with lovely people.
+                </p>
+
+                <a href="{% url 'shelter:browse_animals' %}" class="btn btn-primary">
+                    Meet our Animals 
+                </a>
+            </div>
+
+            <div class="col-lg-7">
+                <img src="{% static 'images/building-shelter.jpg' %}" alt="Our shelter" class="about-hero-image">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about-story">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <img src="{% static 'images/kid-bird.jpg' %}" alt="A kid hugging a bird" class="about-story-image">
+            </div>
+
+            <div class="col-lg-7">
+                <p class="about-label">
+                    Our Story
+                </p>
+
+                <h2 class="story-title"> Joy, Connection, Love </h2>
+
+                <p> HappyPaws was created to make pet adoption process easier, safer
+                    and more accessible. The founder of the shelter is called Shari D. Coleman and he is a veterinarian expert. Our website allows users to discover animals, save
+                    their favourite pets that need support and adopt in two steps.
+                </p>
+
+                <p> We also support local animal shelters in Greece and non-profit organizations
+                    by providing food for animals and financial support. Our shelter collaborates with an animal shelter located in Thessaloniki, Greece. In this way, all animals are being taken cared of.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about-values">
+    <div class="container">
+        <div class="values-heading text-center">
+            <p class="about-label">
+                Our Beliefs
+            </p>
+
+            <h2> Our Values </h2>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <img src="{% static 'images/heart.png' %}">
+                    </div>
+                    <div>
+                        <h3> Compassion </h3>
+
+                        <p> Our goal is to protect animals and treat them with kindness. </p>
+                
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <img src="{% static 'images/paw.png' %}">
+                    </div>
+                    <div>
+                        <h3> Responsibility </h3>
+
+                        <p> Our goal is to a safe environment for pet adoption process </p>
+                
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <img src="{% static 'images/people.png' %}">
+                    </div>
+                    <div>
+                        <h3> Community </h3>
+
+                        <p> Our goal is to build an empathetic community that is trying to solve this real-world problem. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about-cta">
+    <div class="container text-center">
+        <h2> Be part of our community and help a pet! </h2>
+
+        <p> Browse available animals online </p>
+
+        <div class="about-cta-buttons">
+            <a href="{% url 'shelter:browse_animals' %}" class="btn btn-light">
+                Browse Animals
+            </a>
+
+            <a href="{% url 'shelter:browse_animals' %}" class="btn btn-outline-light">
+                Suggest Animal
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
