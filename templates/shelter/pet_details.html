@@ -64,7 +64,7 @@ Browse Animals | HappyPaws
 
                 <div class="likes-display mb-3">
                     <span class="fs-5">
-                        Like {{ likes_count|pluralize }}
+                        {{ likes_count}} Like {{likes_count|pluralize }}
                     </span>
                 </div>
 
@@ -104,6 +104,90 @@ Browse Animals | HappyPaws
         </div>
     </div>
 </main>
+
+<section class="reviews-section py-5">
+    <div class="container">
+        <div class="row g-4">
+
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+
+                        <h2 class="h4 fw-bold mb-3">
+                            {% if existing_review %}
+                                Edit Your Review
+                            {% else %}
+                                Leave a Review
+                            {% endif %}
+                        </h2>
+
+                        <form method="POST">
+                            {% csrf_token %}
+
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Rating
+                                </label>
+
+                                {{ review_form.rating }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Comment
+                                </label>
+
+                                {{ review_form.comment }}
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                {% if existing_review %}
+                                    Update Review
+                                {% else %}
+                                    Submit Review
+                                {% endif %}
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <h2 class="h4 fw-bold mb-3">
+                    Reviews
+                </h2>
+
+                {% for review in reviews %}
+                    <div class="card border-0 shadow-sm mb-3">
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between">
+                                <strong>
+                                    {{ review.user.username }}
+                                </strong>
+                            </div>
+
+                            <p class="mt-3 mb-1">
+                                {{ review.comment }}
+                            </p>
+
+                            <small class="text-muted">
+                                {{ review.created_at|date:"d M Y" }}
+                            </small>
+
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-muted">
+                        No reviews yet.
+                    </p>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</section>
 
 {% if recommended_pets %}
 <section class="recommended-section mt-5">
