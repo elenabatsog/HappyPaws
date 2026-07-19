@@ -26,11 +26,11 @@ Home | HappyPaws
                 </p>
 
                 <div class="home-hero-buttons">
-                    <a href="{% url 'shelter:browse_animals' %}" class="btn btn-primary">
-                        Browse Animals 
+                    <a href="{% url 'accounts:dashboard' %}" class="btn btn-primary">
+                        Go to Dashboard
                     </a>
 
-                    <a href="{% url 'accounts:about' %}" class="btn btn-outline-light">
+                    <a href="{% url 'accounts:about' %}" class="btn btn-primary">
                         Learn More
                     </a>
                 </div>
@@ -143,7 +143,7 @@ Home | HappyPaws
         <h2> Are you ready to adopt your new friend? </h2>
 
         <a href="{% url 'shelter:browse_animals' %}" class="btn btn-light">
-            Adopt Now
+            Find a Pet
         </a>
     </div>
 </section>
