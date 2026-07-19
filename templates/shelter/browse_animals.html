@@ -15,7 +15,7 @@ Browse Animals | HappyPaws
             </p>
         </div>
 
-        <form method="GET" class="card-border-0 shadow-sm p-3 mb-4">
+        <form method="GET" class="card border-0 shadow-sm p-3 mb-4">
             <div class="row g-3 align-items-end">
                 <div class="col-md-5">
                     <label for="search" class="form-label">
@@ -40,17 +40,95 @@ Browse Animals | HappyPaws
                                 value="{{ category.id }}"
                                 {% if selected_category == category.id|stringformat:"s" %}
                                     selected 
-                                {% endif %}
-                            >
+                                {% endif %}>
                                 {{ category.name }}
                             </option>
                         {% endfor %}
+                    </select>     
+                </div>
+
+                <div class="col-md-3">
+                    <label for="gender" class="form-label">
+                        Gender
+                    </label>
+
+                    <select name="gender" id="gender" class="form-select">
+                        <option value="">All</option>
+
+                        <option value="MALE"
+                            {% if selected_gender == "MALE" %}
+                                selected
+                            {% endif %}>
+                            Male
+                        </option>
+
+                        <option value="FEMALE"
+                            {% if selected_gender == "FEMALE" %}
+                                selected
+                            {% endif %}>
+                            Female
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="size" class="form-label">
+                        Size
+                    </label>
+
+                    <select name="size" id="size" class="form-select">
+                        <option value="">All</option>
+
+                        <option value="SMALL"
+                            {% if selected_size == "SMALL" %}
+                                selected
+                            {% endif %}>
+                            Small
+                        </option>
+
+                        <option value="MEDIUM"
+                            {% if selected_size == "MEDIUM" %}
+                                selected
+                            {% endif %}>
+                            Medium
+                        </option>
+
+                        <option value="LARGE"
+                            {% if selected_size == "LARGE" %}
+                                selected
+                            {% endif %}>
+                            Large
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="vaccinated" class="form-label">
+                        Vaccinated
+                    </label>
+
+                    <select name="vaccinated" id="vaccinated" class="form-select">
+                        <option value="">Any</option>
+
+                        <option value="yes"
+                            {% if selected_vaccinated == "yes" %}
+                                selected
+                            {% endif %}>
+                            Yes
+                        </option>
+
+                        <option value="no"
+                            {% if selected_vaccinated == "no" %}
+                                selected
+                            {% endif %}>
+                            No
+                        </option>
                     </select>
                 </div>
 
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-primary w-100">
-                        Search
+                        Apply Filters
                     </button>
                 </div>
             </div>
@@ -58,7 +136,7 @@ Browse Animals | HappyPaws
             {% if search_query or selected_category %}
                 <div class="mt-3">
                     <a href="{% url 'shelter:browse_animals' %}" class="btn btn-outline-secondary">
-                        Clear Search
+                        Clear Filters
                     </a>
                 </div>
             {% endif %}
@@ -115,8 +193,8 @@ Browse Animals | HappyPaws
                 </div>
             {% empty %}
                 <div class="col-12">
-                    <div class="alert alert-info">
-                        No animals match your selected category or search.
+                    <div class="alert alert-info text-center">
+                        <h4>No animals found.</h4>
                     </div>
                 </div>
             {% endfor %}
