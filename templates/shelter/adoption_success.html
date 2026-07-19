@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+Adoption Request Submitted | HappyPaws
+{% endblock %}
+
+{%block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow-sm text-center">
+                <div class="card-body p-5">
+                    <h1 class="mb-3">
+                        Adoption Request Submitted!
+                    </h1>
+
+                    <p class="lead">
+                        Thank you for your interest in adopting
+                        <strong>{{ pet.name }} </strong>
+                    </p>
+
+                    <p class="text-muted mb-4">
+                        Your request has been received successfully. 
+                        Our team will review it and it will contact you as soon as possible.
+                    </p>
+
+                    <a href="{% url 'shelter:browse_animals' %}" class="btn btn-primary">
+                        Browse More Animals
+                    </a>
+
+                    <a href="{% url 'accounts:dashboard' %}" class="btn btn-outline-secondary">
+                        Return to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

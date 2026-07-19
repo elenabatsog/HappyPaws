@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block title %}
+Adopt {{ pet.name }} | HappyPaws 
+{% endblock %}
+
+{%block content %}
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card shadow-sm border-0">
+                <div class="row g-0">
+                    <div class="col-md-5 adoption-image-column">
+                        {% if pet.image %}
+                            <img src="{{ pet.image.url }}" alt="{{ pet.name }}" class="adoption-pet-image">
+                        {% else %}
+                            <div class="adoption-no-image">
+                                <p> No image available </p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="card-body p-4">
+                            <h1 class="mb-2">
+                                Adopt {{ pet.name }}
+                            </h1>
+
+                            <p class="text-muted">
+                                Complete the fields of the form to submit your request.
+                            </p>
+
+                            <hr>
+
+                            <form method="POST">
+                                {% csrf_token %}
+
+                                {% if form.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                        {{ form.non_field_errors }}
+                                    </div>
+                                {% endif %}
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Full Name
+                                    </label>
+
+                                    {{ form.full_name }}
+
+                                    {% for error in form.full_name.errors %}
+                                        <div class="text-danger small">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Email 
+                                    </label>
+
+                                    {{ form.email }}
+
+                                    {% for error in form.email.errors %}
+                                        <div class="text-danger small">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Phone Number 
+                                    </label>
+
+                                    {{ form.phone_number }}
+
+                                    {% for error in form.phone_number.errors %}
+                                        <div class="text-danger small">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Address 
+                                    </label>
+
+                                    {{ form.address }}
+
+                                    {% for error in form.address.errors %}
+                                        <div class="text-danger small">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Why would you like to adopt {{ pet.name }}? 
+                                    </label>
+
+                                    {{ form.reason }}
+
+                                    {% for error in form.reason.errors %}
+                                        <div class="text-danger small">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">
+                                    Submit Adoption Request
+                                </button>
+
+                                <a href="{% url 'shelter:pet_details' pet.id %}" class="btn btn-outline-secondary">
+                                    Cancel
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
