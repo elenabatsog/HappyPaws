@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from .models import UserProfile
+from .forms import EditProfileForm
 
 from . forms import LoginForm, NewUserForm 
 
@@ -120,4 +121,33 @@ def logout_request(request):
 
     return redirect("accounts:welcome")
 
+@login_required
+def edit_profile(request):
+    if request.method == "POST":
+        form = EditProfileForm(
+            request.POST,
+            instance=request.user,
+        )
 
+        if form.is_valid():
+            user = form.save(commit=False)
+
+            user.username = user.email
+            user.save()
+
+            messages.success(
+                request,
+                "Your profile was updated successfully. ",
+            )
+
+            return redirect("accounts:dashboard")
+    else:
+        form = EditProfileForm(
+            instance = request.user,
+        )
+
+    return render(
+        request,
+        "accounts/edit_profile.html",
+        {"form": form},
+    )
