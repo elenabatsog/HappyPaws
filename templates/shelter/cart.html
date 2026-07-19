@@ -1,27 +1,58 @@
 {% extends "base.html" %}
 
+{% block title %}
+<h2> My Cart </h2>
+{% endblock %}
+
 {%block content %}
+<main class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1> My Adoption Cart </h1>
 
-<h2> My Adoption Cart </h2>
+            <p class="text-muted">
+                Review the animals you would love to adopt!
+            </p>
+        </div>
 
-{% if cart_items %}
-    <ul>
-        {% for item in cart_items %}
-            <li>
-                <strong> {{ item.pet.name }} </strong> - {{ item.pet.category.name }}
+        {% if cart_items %}
+            <div class="row g-4">
+                {% for item in cart_items %}
+                    <div class="col-md-6">
+                        <div class="card shadow-sm h-100">
+                            {% if item.pet.image %}
+                                <img src="{{ item.pet.image.url }}" class="card-img-top cart-pet-image" alt="{{ item.pet.name }}">
+                            {% endif %}
 
-                <a href="{% url 'shelter:remove_from_cart' item.id %}">
-                    Remove
+                            <div class="card-body">
+                                <h3> {{ item.pet.name }} </h3>
+
+                                <p class="text-muted"> {{ item.pet.category }} - {{ item.pet.breed }} </p>
+                                <p> 
+                                    <strong> Fee: </strong>
+                                    {{ item.pet.adoption_fee }}
+                                </p>
+
+                                <a href="{% url 'shelter:remove_from_cart' item.id %}" class="btn btn-outline-danger">
+                                    Remove
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="{% url 'shelter:submit_cart' %}">
+                    Submit Adoption Request
                 </a>
-            </li>
-        {% endfor %}
-    </ul>
-
-    <a href="{% url 'shelter:submit_cart' %}">
-        Submit Adoption Request
-    </a>
-{% else %}
-    <p> Your cart is empty. </p>
-{% endif %}
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center">
+                <h4> Your cart is empty. </h4>
+            </div>
+        {% endif %}
+    </div>
+</main>
 
 {% endblock %}
