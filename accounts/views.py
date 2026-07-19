@@ -42,9 +42,9 @@ def welcome(request):
                 except User.DoesNotExist:
                     user = None
                 
-                if user is not None:
-                    login(request, user)
-                    return redirect("accounts:dashboard")
+            if user is not None:
+                login(request, user)
+                return redirect("accounts:dashboard")
             
             messages.error(
                 request,
@@ -91,6 +91,18 @@ def register_request(request):
         "accounts/register.html",
         {"register_form": form},
     )
+
+@login_required
+def home(request):
+    return render(request, "accounts/home.html")
+
+@login_required
+def about(request):
+    return render(request, "accounts/about.html")
+
+@login_required
+def contact(request):
+    return render(request, "accounts/contact.html")
 
 @login_required
 def dashboard(request):
