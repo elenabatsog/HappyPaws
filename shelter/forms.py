@@ -1,5 +1,5 @@
 from django import forms
-from .models import AnimalSuggestion, Pet
+from .models import AnimalSuggestion, Pet, AdoptionRequest, Review
 
 class AnimalSuggestionForm(forms.ModelForm):
     class Meta:
@@ -127,5 +127,80 @@ class PetForm(forms.ModelForm):
 
             "image": forms.ClearableFileInput(
                 attrs={"class": "form-control"}
+            ),
+        }
+
+class AdoptionRequestForm(forms.ModelForm):
+    class Meta:
+        model = AdoptionRequest
+
+        fields = [
+            "full_name",
+            "email",
+            "phone_number",
+            "address",
+            "reason",
+        ]
+
+        widgets = {
+            "full_name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter your full name",
+                }
+            ),
+
+            "email": forms.EmailInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter your email address",
+                }
+            ),
+
+            "address": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter your home address",
+                }
+            ),
+
+            "phone_number": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter your phone number",
+                }
+            ),
+
+            "reason": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 5,
+                    "placeholder": "Why would you like to adopt this animal?",
+                }
+            ),
+        }
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+
+        fields = [
+            "rating",
+            "comment",
+        ]
+
+        widgets = {
+            "rating": forms.Select(
+                attrs={
+                    "class": "form-select",
+                }
+            ),
+
+            "comment": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 4,
+                    "placeholder": "Write your review..",
+                }
             ),
         }
